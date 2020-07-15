@@ -8,16 +8,18 @@ import subprocess
 
 # Hard coded program parameters. TODO: Change to user parameters.
 
-NODES = 8
+NODES = 1
 CORES_PER_NODE = 4
 GIGABYTES_PER_NODE = 4
-MEMORY_PERCENT = [80, 100]
-NB = [96, 256]
+MEMORY_PERCENT = [12.5]
+NB_START = 32
+NB_STOP = 256
+NB_INCREMENT = 8
 
 
 # Template HPL.dat file contents.
 
-HPL_DAT = """
+HPL_DAT = """\
 HPLinpack benchmark input file
 Innovative Computing Laboratory, University of Tennessee
 HPL.out      output file name (if any)
@@ -98,21 +100,13 @@ def calculate_pq(nodes, cores_per_node):
 
 for memory_percent in MEMORY_PERCENT:
 
-    for nb in NB:
+    for nb in range(NB_START, NB_STOP + NB_INCREMENT, NB_INCREMENT):
 
         n = calculate_n(NODES, GIGABYTES_PER_NODE, memory_percent, nb)
 
         pq = calculate_pq(NODES, CORES_PER_NODE)
 
         for i in range(len(pq)):
-
-            # Delete any old HPL.dat and HPL.out files (possibly from a crash).
-            try:
-                os.remove("HPL.dat")
-                os.remove("HPL.out")
-            except:
-                # Ignore any exceptions, the files may not exist.
-                pass
 
             # Create a new HPL.dat file, populating it with n, nb, p and q.
             try:
@@ -123,19 +117,26 @@ for memory_percent in MEMORY_PERCENT:
                 exit()
 
             # Run Linpack.
+            print(
+                "Running NODES={} N={} NB={} P={} Q={}... ".format(
+                    NODES, n, nb, pq[i][0], pq[i][1]
+                ),
+                end="",
+                flush=True,
+            )
             try:
-                pass
-                # subprocess.run(["mpirun", "-host", "nodes", "-np", "4", "xhpl"])
+                subprocess.run(["mpirun", "-hostfile", "nodes", "-np", "4", "xhpl"])
             except:
-                pass
+                os.remove("HPL.dat")
+                os.remove("HPL.out")
+                exit()
+            print("done", flush=True)
 
             # Archive the current HPL.dat and HPL.out files.
             try:
-                suffix = "{}_{}_{}_{}_{}".format(NODES, n, nb, p, q)
-                dtg = datetime.datetime.now().strftime("%FT%T")
-                # os.rename("HPL.dat", "HPL.dat.{}.{}".format(suffix, dtg))
-                # os.rename("HPL.out", "HPL.out.{}.{}".format(suffix, dtg))
-            except:
+                suffix = "{}_{}_{}_{}_{}".format(NODES, n, nb, pq[i][0], pq[i][1])
+                os.rename("HPL.dat", "HPL.dat.{}".format(suffix))
+                os.rename("HPL.out", "HPL.out.{}".format(suffix))
+            except IOError as e:
                 # The above archiving should work if we have got to this point.
-                pass
-
+                print("I/O error: {0}".format(e))

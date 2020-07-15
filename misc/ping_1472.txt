@@ -1,0 +1,8 @@
+john@node1:~$ ping -c 1 -s 1472 -M do node2
+PING node2 (192.168.0.2) 1472(1500) bytes of data.
+1480 bytes from node2 (192.168.0.2): icmp_seq=1 ttl=64 time=0.381 ms
+
+--- node2 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.381/0.381/0.381/0.000 ms
+
