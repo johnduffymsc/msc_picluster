@@ -77,7 +77,6 @@ packages:
 - linux-tools-raspi
 - build-essential
 - gdb
-- clang
 - openmpi-common
 - openmpi-bin
 - libblis3-serial
@@ -124,5 +123,6 @@ write_files:
 #- [ wget, "http://ubuntu.com", -O, /run/mydir/index.html ]
 runcmd:
 - hostnamectl set-hostname --static node$(hostname -i | cut -d ' ' -f 1 | cut -d '.' -f 4)
+- apt remove unattended-upgrades
 - reboot
 
