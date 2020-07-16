@@ -3,13 +3,13 @@ Innovative Computing Laboratory, University of Tennessee
 HPL.out      output file name (if any)
 0            device out (6=stdout,7=stderr,file)
 1            # of problems sizes (N)
-26208        Ns
+52352        Ns
 1            # of NBs
-96           NBs
+128          NBs
 0            PMAP process mapping (0=Row-,1=Column-major)
-1            # of process grids (P x Q)
-1            Ps
-8            Qs
+2            # of process grids (P x Q)
+2 4          Ps
+16 8         Qs
 16.0         threshold
 3            # of panel fact
 0 1 2        PFACTs (0=left, 1=Crout, 2=Right)
@@ -29,3 +29,4 @@ HPL.out      output file name (if any)
 0            U  in (0=transposed,1=no-transposed) form
 1            Equilibration (0=no,1=yes)
 8            memory alignment in double (> 0)
+
