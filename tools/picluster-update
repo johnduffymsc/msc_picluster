@@ -1,0 +1,14 @@
+#!/usr/bin/bash
+
+NODES=9
+
+for (( i=$NODES; i>0; i-- ))
+do
+	echo ""
+	echo "UPGRADING node$i..."
+	ssh node$i sudo apt update
+	ssh node$i sudo apt full-upgrade --yes
+	ssh node$i sudo apt autoremove --yes
+	ssh node$i sudo shutdown -r now
+done
+
