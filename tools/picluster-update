@@ -1,5 +1,7 @@
 #!/usr/bin/bash
 
+# A simple bash script to upgrade the cluster.
+
 NODES=9
 
 for (( i=$NODES; i>0; i-- ))

@@ -1,0 +1,12 @@
+#!/usr/bin/bash
+
+# A simple bash script to reboot the cluster.
+
+NODES=9
+
+for (( i=$NODES; i>0; i-- ))
+do
+	echo "Rebooting node$i..."
+	ssh node$i sudo shutdown -r now
+done
+
