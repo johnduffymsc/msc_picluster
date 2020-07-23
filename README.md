@@ -12,6 +12,5 @@
 
 **8 Nodes**
 
-![](HPL.out.8_node_grep_WR)
-
+![](HPL.out.8_node_grep_WR.txt)
 
