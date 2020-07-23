@@ -1,10 +1,10 @@
 **Gflops vs NB for 1 Core**
 
-![](gflops_vs_nb_1_core_nb_80_percent_memory.pdf)
+![](gflops_vs_nb_1_core_80_percent_memory.pdf)
 
 **Gflops vs NB for 1 Node**
 
-![](gflops_vs_nb_1_node_nb_80_percent_memory.pdf)
+![](gflops_vs_nb_1_node_80_percent_memory.pdf)
 
 **Gflops vs Nodes**
 
