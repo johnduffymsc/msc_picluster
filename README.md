@@ -8,4 +8,5 @@
 ![](gflops_vs_nodes_80_percent_memory.png)
 
 # 8 Nodes
-@@include[](HPL.out.8_node_WR.md)
+![](HPL.out.8_node_WR.md)
+
