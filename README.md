@@ -1,4 +1,4 @@
-#Gflops vs NB for 1 Core
+# Gflops vs NB for 1 Core
 ![](gflops_vs_nb_1_core_80_percent_memory.png)
 
 # Gflops vs NB for 1 Node
@@ -6,7 +6,4 @@
 
 # Gflops vs Nodes
 ![](gflops_vs_nodes_80_percent_memory.png)
-
-# 8 Nodes
-![](HPL.out.8_node_WR.md)
 
