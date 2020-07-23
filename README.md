@@ -4,11 +4,11 @@
 
 **Gflops vs NB for 1 Node**
 
-![](gflops_vs_nb_1_node_80_percent_memory.pdf)
+![](gflops_vs_nb_1_node_80_percent_memory.png)
 
 **Gflops vs Nodes**
 
-![](gflops_vs_nodes_80_percent_memory.pdf)
+![](gflops_vs_nodes_80_percent_memory.png)
 
 **8 Nodes**
 
