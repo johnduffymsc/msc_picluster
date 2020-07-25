@@ -1,0 +1,39 @@
+#!/usr/bin/bash
+
+# This script makes it easier to extract the maximum Gflops for NB, P
+# and Q combinations for plotting.
+#
+# The script takes as input multiple HPL.out files, one file for each
+# value of NB, but with potentially multiple pairs of P and Q.
+#
+# TODO: Simplify this into a single awk script.
+
+
+# Select which BLAS library HPL.out files to sort.
+if [[ $1 != "openblas" ]] && [[ $1 != "blis" ]]
+then
+	echo "Useage: picluster-sort-hpl-out openblas|blis"
+	exit
+fi
+
+# Loop over all HPL.out files.
+for f in HPL.out.*.$1
+do
+	# Sort this file by P and Gflops into a temporary file.
+	grep WR $f | sort -g -k 4 -k 7 | tr -s ' ' > tmp
+	
+	# Loop over unique values of P.
+	for p in $(gawk '{print $4}' tmp | uniq)
+	do
+		# Get the last line for this P (maximum Gflops). 
+		gawk -v p=$p '$4==p' tmp | tail -n 1
+	done
+
+	# Delete tmp.
+	rm tmp
+
+# Sort output from all files by P and NB, and print P, Q, NB and Gflops.
+done \
+	| sort -g -k 4 -k 3 \
+	| gawk {'printf("%i %i %i %f\n", $4, $5, $3, $7)'}
+

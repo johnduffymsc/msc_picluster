@@ -1,23 +1,13 @@
-#!/usr/bin/python3
+#!/usr/bin/bash
 
-import datetime
-import math
-import os
-import subprocess
+NODES=1
+CORES_PER_NODE=4
+GIGABYTES_PER_NODE=4
+MEMORY_PERCENT=12.5
+NB_START=32
+NB_STOP=256
+NB_INCREMENT=8
 
-
-# Hard coded program parameters. TODO: Change to user parameters.
-
-NODES = 1
-CORES_PER_NODE = 4
-GIGABYTES_PER_NODE = 4
-MEMORY_PERCENT = [12.5]
-NB_START = 32
-NB_STOP = 256
-NB_INCREMENT = 8
-
-
-# Template HPL.dat file contents.
 
 HPL_DAT = """\
 HPLinpack benchmark input file
@@ -25,13 +15,13 @@ Innovative Computing Laboratory, University of Tennessee
 HPL.out      output file name (if any)
 0            device out (6=stdout,7=stderr,file)
 1            # of problems sizes (N)
-{:<5}        Ns
+N?           Ns
 1            # of NBs
-{:<5}        NBs
+NB?          NBs
 0            PMAP process mapping (0=Row-,1=Column-major)
 1            # of process grids (P x Q)
-{:<5}        Ps
-{:<5}        Qs
+P?           Ps
+Q?           Qs
 16.0         threshold
 3            # of panel fact
 0 1 2        PFACTs (0=left, 1=Crout, 2=Right)
@@ -71,72 +61,57 @@ def calculate_n(nodes, gigabytes_per_node, memory_percentage, nb):
     )
 
 
-def calculate_pq(nodes, cores_per_node):
-    """
-    This function returns a list of P and Q tuples.
-    """
-    pq = []
-    cores = nodes * cores_per_node
-    for i in range(1, int(math.sqrt(cores)) + 1):
-        if cores % i == 0 and i < cores // i:  # Ensure P < Q.
-            pq.append((i, cores // i))
-    return pq
+#def calculate_pq(nodes, cores_per_node):
+#    """
+#    This function returns a list of P and Q tuples.
+#    """
+#    pq = []
+#    cores = nodes * cores_per_node
+#    for i in range(1, int(math.sqrt(cores)) + 1):
+#        if cores % i == 0 and i < cores // i:  # Ensure P < Q.
+#            pq.append((i, cores // i))
+#    return pq
 
 
-# This main program loop iterates over the MEMORY_PERCENT and NB user supplied
-# lists and calculates the associated n, and p and q parameters. Together with
-# the current value of nb, these parameters are then used to populate a new
-# HPL.dat file. The Linpack executable is then run, capturing the output in a
-# new HPL.out file.
+#for memory_percent in MEMORY_PERCENT:
 #
-# Any Linpack execution errors results in this program exiting.
+#    for nb in range(NB_START, NB_STOP + NB_INCREMENT, NB_INCREMENT):
 #
-# TODO: Fix!
-# At end of each iteration of the inner loop the test results are extracted
-# from the HPL.out file and appended to a HPL.out.combined."memory_percent"
-# file. This file contains the 18 test results from each iteration. These results
-# are then sorted and the best result appended to a
-# HPL.results.plot."memory"
-
-for memory_percent in MEMORY_PERCENT:
-
-    for nb in range(NB_START, NB_STOP + NB_INCREMENT, NB_INCREMENT):
-
-        n = calculate_n(NODES, GIGABYTES_PER_NODE, memory_percent, nb)
-
-        pq = calculate_pq(NODES, CORES_PER_NODE)
-
-        for i in range(len(pq)):
-
-            # Create a new HPL.dat file, populating it with n, nb, p and q.
-            try:
-                with open("HPL.dat", "w") as f:
-                    f.write(HPL_DAT.format(n, nb, pq[i][0], pq[i][1]))
-            except IOError as e:
-                print("I/O error: {0}".format(e))
-                exit()
-
-            # Run Linpack.
-            print(
-                "Running NODES={} N={} NB={} P={} Q={}... ".format(
-                    NODES, n, nb, pq[i][0], pq[i][1]
-                ),
-                end="",
-                flush=True,
-            )
-            try:
-                subprocess.run(["mpirun", "-hostfile", "nodes", "-np", "4", "xhpl"])
-            except:
-                os.remove("HPL.dat")
-                os.remove("HPL.out")
-                exit()
-            print("done", flush=True)
-
-            # Archive the current HPL.dat and HPL.out files.
-            try:
-                suffix = "{}_{}_{}_{}_{}".format(NODES, n, nb, pq[i][0], pq[i][1])
-                os.rename("HPL.dat", "HPL.dat.{}".format(suffix))
-                os.rename("HPL.out", "HPL.out.{}".format(suffix))
-            except IOError as e:
-                # The above archiving should work if we have got to this point.
-                print("I/O error: {0}".format(e))
+#        n = calculate_n(NODES, GIGABYTES_PER_NODE, memory_percent, nb)
+#
+#        pq = calculate_pq(NODES, CORES_PER_NODE)
+#
+#        for i in range(len(pq)):
+#
+#            # Create a new HPL.dat file, populating it with n, nb, p and q.
+#            try:
+#                with open("HPL.dat", "w") as f:
+#                    f.write(HPL_DAT.format(n, nb, pq[i][0], pq[i][1]))
+#            except IOError as e:
+#                print("I/O error: {0}".format(e))
+#                exit()
+#
+#            # Run Linpack.
+#            print(
+#                "Running NODES={} N={} NB={} P={} Q={}... ".format(
+#                    NODES, n, nb, pq[i][0], pq[i][1]
+#                ),
+#                end="",
+#                flush=True,
+#            )
+#            try:
+#                subprocess.run(["mpirun", "-hostfile", "nodes", "-np", "4", "xhpl"])
+#            except:
+#                os.remove("HPL.dat")
+#                os.remove("HPL.out")
+#                exit()
+#            print("done", flush=True)
+#
+#            # Archive the current HPL.dat and HPL.out files.
+#            try:
+#                suffix = "{}_{}_{}_{}_{}".format(NODES, n, nb, pq[i][0], pq[i][1])
+#                os.rename("HPL.dat", "HPL.dat.{}".format(suffix))
+#                os.rename("HPL.out", "HPL.out.{}".format(suffix))
+#            except IOError as e:
+#                # The above archiving should work if we have got to this point.
+#                print("I/O error: {0}".format(e))
