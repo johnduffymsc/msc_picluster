@@ -28,7 +28,8 @@ Rpeak = 24 Gflops
 Using 80% of memory results in a maximum achievable:
 
 ```
-80% Rpeak = 19.2 Gflops 
+80% Rpeak = 19.2 Gflops per node
+80% Rpeak =  4.8 Gflops per core
 ```
 
 ## Gflops vs NB 1 Core 80% Memory
