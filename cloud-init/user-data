@@ -1,0 +1,129 @@
+#cloud-config
+
+# This is the user-data configuration file for cloud-init. By default this sets
+# up an initial user called "ubuntu" with password "ubuntu", which must be
+# changed at first login. However, many additional actions can be initiated on
+# first boot from this file. The cloud-init documentation has more details:
+#
+# https://cloudinit.readthedocs.io/
+#
+# Some additional examples are provided in comments below the default
+# configuration.
+
+# On first boot, set the (default) ubuntu user's password to "ubuntu" and
+# expire user passwords
+chpasswd:
+  expire: false 
+  list:
+  - ubuntu:ubuntu
+  - john:john
+
+# Enable password authentication with the SSH daemon
+ssh_pwauth: true
+
+## On first boot, use ssh-import-id to give the specific users SSH access to
+## the default user
+#ssh_import_id:
+#- lp:my_launchpad_username
+#- gh:my_github_username
+
+## Add users and groups to the system, and import keys with the ssh-import-id
+## utility
+#groups:
+#- robot: [robot]
+#- robotics: [robot]
+#- pi
+#
+groups:
+- john: [john]
+
+#users:
+#- default
+#- name: robot
+#  gecos: Mr. Robot
+#  primary_group: robot
+#  groups: users
+#  ssh_import_id: foobar
+#  lock_passwd: false
+#  passwd: $5$hkui88$nvZgIle31cNpryjRfO9uArF7DYiBcWEnjqq7L1AQNN3
+users:
+- default
+- name: john
+  gecos: John Duffy
+  primary_group: john
+  sudo: ALL=(ALL) NOPASSWD:ALL
+  shell: /bin/bash
+  ssh_authorized_keys:
+  - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDGsnzP+1Q6NgeeKFTd/+Mom+UCYJTL/wzIiS9nLA2N2w6Iv1H9M8+IXzIEY1M/rkhVm8/vb+Skz3YQQnsda9k0EvETejb8eaRY+nC/Lp1+xEK9qyQwBQl1ce9kc5NoIrHoRAL3wV8Idg/YBf0hOxlyy7b8N/9wyNRfudL9KTnZea3GdNcxa79FfhTm7Up8jm1KxlOaTXEQyxDJY/Lx/pfAdpK7+nFv7prOuloz9EVWG3PNNlW/Fl0hZ45jhlMP3R4nCGrszHDbTfUuPuT6nfJGUos9ZyNiEUo2jO7wt4WHt3XOASaSNVHia/MV+9N6HfVaHASknPZMITYk1N4Ac567uwxK+PD8gngF3Tz9tTchqlj/PMYIWuDfRS5DQ6YOsDvbvd+q5SyeIvHFc46Z3lg4j1H+c3qo/MDtOXegMWMhHAG8Qdv9GP4I79/Y3kTAbi4B8bsyu3M5NvZewZIeh0GiXQJSYSdspIdtJcNXxWVvOtXnmjGFgMZibXF3PzclCiE= john
+
+## Update apt database and upgrade packages on first boot
+#package_update: true
+#package_upgrade: true
+package_update: true
+package_upgrade: true
+
+## Install additional packages on first boot
+#packages:
+#- pwgen
+#- pastebinit
+#- [libpython2.7, 2.7.3-0ubuntu3.1]
+packages:
+- git
+- tree
+- unzip
+- iperf
+- net-tools
+- linux-tools-common
+- linux-tools-raspi
+- build-essential
+- gdb
+- openmpi-common
+- openmpi-bin
+- libblis3-serial
+- libblis3-openmp
+- libopenblas0-serial
+- libopenblas0-openmp
+
+## Write arbitrary files to the file-system (including binaries!)
+#write_files:
+#- path: /etc/default/keyboard
+#  content: |
+#    # KEYBOARD configuration file
+#    # Consult the keyboard(5) manual page.
+#    XKBMODEL="pc105"
+#    XKBLAYOUT="gb"
+#    XKBVARIANT=""
+#    XKBOPTIONS="ctrl: nocaps"
+#  permissions: '0644'
+#  owner: root:root
+#- encoding: gzip
+#  path: /usr/bin/hello
+#  content: !!binary |
+#    H4sIAIDb/U8C/1NW1E/KzNMvzuBKTc7IV8hIzcnJVyjPL8pJ4QIA6N+MVxsAAAA=
+#  owner: root:root
+#  permissions: '0755'
+write_files:
+- path: /etc/hosts
+  content: |
+    127.0.0.1 localhost
+    192.168.0.1 node1
+    192.168.0.2 node2
+    192.168.0.3 node3
+    192.168.0.4 node4
+    192.168.0.5 node5
+    192.168.0.6 node6
+    192.168.0.7 node7
+    192.168.0.8 node8
+    192.168.0.9 node9
+  permissions: '0644'
+  owner: root:root
+
+## Run arbitrary commands at rc.local like time
+#runcmd:
+#- [ ls, -l, / ]
+#- [ sh, -xc, "echo $(date) ': hello world!'" ]
+#- [ wget, "http://ubuntu.com", -O, /run/mydir/index.html ]
+runcmd:
+- hostnamectl set-hostname --static node$(hostname -i | cut -d ' ' -f 1 | cut -d '.' -f 4)
+- reboot
+

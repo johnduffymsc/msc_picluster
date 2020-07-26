@@ -62,7 +62,7 @@ Rmax is the maximum observed Gflops using the following values of NB:
 * OpenBLAS NB = 120 
 * BLIS     NB = 168
 
-These values achieved Rmax on the 2 node benchmark. The assumption that this extrapolates to the 8 node benchmark  neeeds further investigation.
+These values achieved Rmax on the 2 node benchmark. The assumption that this extrapolates to the 8 node benchmark  needs further investigation.
 
 ![](plots/gflops_vs_nodes_80_percent_memory.png)
 
