@@ -1,12 +1,10 @@
 #!/usr/bin/bash
 
-# A simple bash script to query the current alternative for libblas.
-
 NODES=9
 
-for (( i=1; i<=$NODES; i++ ))
+for (( i=$NODES; i>0; i-- ))
 do
-	printf "node$i: "
+	printf "node$i... "
 	ssh node$i update-alternatives --query libblas.so.3-aarch64-linux-gnu \
 		| grep Value: \
 		| gawk '{print $2}'

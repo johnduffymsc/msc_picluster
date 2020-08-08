@@ -1,0 +1,20 @@
+#!/usr/bin/bash
+
+NODES=9
+
+case $1 in
+	"openblas-serial" | "openblas-openmp" | "blis-serial" | "blis-openmp")
+		for (( i=$NODES; i>0; i-- ))
+		do
+			printf "node$i... "
+			ssh node$i sudo update-alternatives --quiet --set \
+				libblas.so.3-aarch64-linux-gnu \
+				/usr/lib/aarch64-linux-gnu/$1/libblas.so.3
+			printf "done\n"
+		done
+		exit
+		;;
+esac
+
+echo "Usage: libblas-set {openblas-serial|openblas-openmp|blis-serial|blis-openmp}"
+
