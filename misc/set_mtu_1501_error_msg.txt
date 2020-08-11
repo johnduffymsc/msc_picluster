@@ -1,3 +1,0 @@
-john@node1:~$ sudo ip link set eth0 mtu 1501
-Error: mtu greater than device maximum.
-

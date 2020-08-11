@@ -1,0 +1,80 @@
+#cloud-config
+
+# This is the user-data configuration file for cloud-init. By default this sets
+# up an initial user called "ubuntu" with password "ubuntu", which must be
+# changed at first login. However, many additional actions can be initiated on
+# first boot from this file. The cloud-init documentation has more details:
+#
+# https://cloudinit.readthedocs.io/
+
+# On first boot, set the (default) ubuntu user's password to "ubuntu" and
+# expire user passwords
+chpasswd:
+  expire: true 
+  list:
+  - ubuntu:ubuntu
+  - john:john
+
+# Enable password authentication with the SSH daemon
+ssh_pwauth: true
+
+## Add users and groups to the system, and import keys with the ssh-import-id
+groups:
+- john: [john]
+
+users:
+- default
+- name: john
+  gecos: John Duffy
+  primary_group: john
+  sudo: ALL=(ALL) NOPASSWD:ALL
+  shell: /bin/bash
+  ssh_authorized_keys:
+  - ssh-rsa ...= john
+
+## Update apt database and upgrade packages on first boot
+package_update: true
+package_upgrade: true
+
+## Install additional packages on first boot
+packages:
+- git
+- tree
+- unzip
+- iperf
+- net-tools
+- linux-tools-common
+- linux-tools-raspi
+- build-essential
+- gfortran
+- gdb
+- fakeroot
+- devscripts
+- openmpi-bin
+- libblis3-serial
+- libblis3-openmp
+- libopenblas0-serial
+- libopenblas0-openmp
+
+## Write arbitrary files to the file-system (including binaries!)
+write_files:
+- path: /etc/hosts
+  content: |
+    127.0.0.1 localhost
+    192.168.0.1 node1
+    192.168.0.2 node2
+    192.168.0.3 node3
+    192.168.0.4 node4
+    192.168.0.5 node5
+    192.168.0.6 node6
+    192.168.0.7 node7
+    192.168.0.8 node8
+    192.168.0.9 node9
+  permissions: '0644'
+  owner: root:root
+
+## Run arbitrary commands at rc.local like time
+runcmd:
+- hostnamectl set-hostname --static node$(hostname -i | cut -d ' ' -f 1 | cut -d '.' -f 4)
+- reboot
+

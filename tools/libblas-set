@@ -1,6 +1,6 @@
 #!/usr/bin/bash
 
-NODES=9
+NODES=8
 
 case $1 in
 	"openblas-serial" | "openblas-openmp" | "blis-serial" | "blis-openmp")
