@@ -1,0 +1,742 @@
+########################################################################
+This is the DARPA/DOE HPC Challenge Benchmark version 1.5.0 October 2012
+Produced by Jack Dongarra and Piotr Luszczek
+Innovative Computing Laboratory
+University of Tennessee Knoxville and Oak Ridge National Laboratory
+
+See the source files for authors of specific codes.
+Compiled on Aug 14 2020 at 09:54:16
+Current time (1598619674) is Fri Aug 28 13:01:14 2020
+
+Hostname: 'node1'
+########################################################################
+================================================================================
+HPLinpack 2.0  --  High-Performance Linpack benchmark  --   September 10, 2008
+Written by A. Petitet and R. Clint Whaley,  Innovative Computing Laboratory, UTK
+Modified by Piotr Luszczek, Innovative Computing Laboratory, UTK
+Modified by Julien Langou, University of Colorado Denver
+================================================================================
+
+An explanation of the input/output parameters follows:
+T/V    : Wall time / encoded variant.
+N      : The order of the coefficient matrix A.
+NB     : The partitioning blocking factor.
+P      : The number of process rows.
+Q      : The number of process columns.
+Time   : Time in seconds to solve the linear system.
+Gflops : Rate of execution for solving the linear system.
+
+The following parameter values will be used:
+
+N      :   52320 
+NB     :     120 
+PMAP   : Row-major process mapping
+P      :       1        2        4 
+Q      :      32       16        8 
+PFACT  :   Crout 
+NBMIN  :       4        8 
+NDIV   :       2 
+RFACT  :   Right 
+BCAST  :  1ringM   2ringM 
+DEPTH  :       0        1 
+SWAP   : Mix (threshold = 120)
+L1     : transposed form
+U      : transposed form
+EQUIL  : yes
+ALIGN  : 8 double precision words
+
+--------------------------------------------------------------------------------
+
+- The matrix A is randomly generated for each test.
+- The following scaled residual check will be computed:
+      ||Ax-b||_oo / ( eps * ( || x ||_oo * || A ||_oo + || b ||_oo ) * N )
+- The relative machine precision (eps) is taken to be               1.110223e-16
+- Computational tests pass if scaled residuals are less than                16.0
+
+Begin of MPIRandomAccess section.
+Running on 32 processors (PowerofTwo)
+Total Main table size = 2^31 = 2147483648 words
+PE Main table size = 2^26 = 67108864 words/PE
+Default number of updates (RECOMMENDED) = 8589934592
+Number of updates EXECUTED = 38696576 (for a TIME BOUND of 60.00 secs)
+CPU time used = 2.428892 seconds
+Real time used = 59.963256 seconds
+0.000645338 Billion(10^9) Updates    per second [GUP/s]
+0.000020167 Billion(10^9) Updates/PE per second [GUP/s]
+Verification:  CPU time used = 1.039768 seconds
+Verification:  Real time used = 2.556337 seconds
+Found 0 errors in 2147483648 locations (passed).
+Current time (1598619872) is Fri Aug 28 13:04:32 2020
+
+End of MPIRandomAccess section.
+Begin of StarRandomAccess section.
+Main table size   = 2^26 = 67108864 words
+Number of updates = 268435456
+CPU time used  = 72.215868 seconds
+Real time used = 74.247013 seconds
+0.003615438 Billion(10^9) Updates    per second [GUP/s]
+Found 0 errors in 67108864 locations (passed).
+Node(s) with error 0
+Minimum GUP/s 0.003615
+Average GUP/s 0.003734
+Maximum GUP/s 0.003774
+Current time (1598620019) is Fri Aug 28 13:06:59 2020
+
+End of StarRandomAccess section.
+Begin of SingleRandomAccess section.
+Node(s) with error 0
+Node selected 25
+Single GUP/s 0.008373
+Current time (1598620084) is Fri Aug 28 13:08:04 2020
+
+End of SingleRandomAccess section.
+Begin of MPIRandomAccess_LCG section.
+Running on 32 processors (PowerofTwo)
+Total Main table size = 2^31 = 2147483648 words
+PE Main table size = 2^26 = 67108864 words/PE
+Default number of updates (RECOMMENDED) = 8589934592
+Number of updates EXECUTED = 38605312 (for a TIME BOUND of 60.00 secs)
+CPU time used = 2.509109 seconds
+Real time used = 60.098771 seconds
+0.000642364 Billion(10^9) Updates    per second [GUP/s]
+0.000020074 Billion(10^9) Updates/PE per second [GUP/s]
+Verification:  CPU time used = 0.942353 seconds
+Verification:  Real time used = 1.814957 seconds
+Found 0 errors in 2147483648 locations (passed).
+Current time (1598620282) is Fri Aug 28 13:11:22 2020
+
+End of MPIRandomAccess_LCG section.
+Begin of StarRandomAccess_LCG section.
+Main table size   = 2^26 = 67108864 words
+Number of updates = 268435456
+CPU time used  = 72.010634 seconds
+Real time used = 72.154023 seconds
+0.003720312 Billion(10^9) Updates    per second [GUP/s]
+Found 0 errors in 67108864 locations (passed).
+Node(s) with error 0
+Minimum GUP/s 0.003711
+Average GUP/s 0.003732
+Maximum GUP/s 0.003771
+Current time (1598620428) is Fri Aug 28 13:13:48 2020
+
+End of StarRandomAccess_LCG section.
+Begin of SingleRandomAccess_LCG section.
+Node(s) with error 0
+Node selected 11
+Single GUP/s 0.008155
+Current time (1598620495) is Fri Aug 28 13:14:55 2020
+
+End of SingleRandomAccess_LCG section.
+Begin of PTRANS section.
+M: 26160
+N: 26160
+MB: 120
+NB: 120
+P: 1 2 4
+Q: 32 16 8
+TIME   M     N    MB  NB  P   Q     TIME   CHECK   GB/s   RESID
+---- ----- ----- --- --- --- --- -------- ------ -------- -----
+WALL 26160 26160 120 120   1  32    11.75 PASSED    0.466  0.00
+CPU  26160 26160 120 120   1  32     1.25 PASSED    4.388  0.00
+WALL 26160 26160 120 120   1  32    11.60 PASSED    0.466  0.00
+CPU  26160 26160 120 120   1  32     1.17 PASSED    4.684  0.00
+WALL 26160 26160 120 120   1  32    11.36 PASSED    0.466  0.00
+CPU  26160 26160 120 120   1  32     1.13 PASSED    4.854  0.00
+WALL 26160 26160 120 120   1  32    11.23 PASSED    0.466  0.00
+CPU  26160 26160 120 120   1  32     1.14 PASSED    4.823  0.00
+WALL 26160 26160 120 120   1  32    11.03 PASSED    0.466  0.00
+CPU  26160 26160 120 120   1  32     1.11 PASSED    4.928  0.00
+WALL 26160 26160 120 120   2  16    12.75 PASSED    0.429  0.00
+CPU  26160 26160 120 120   2  16     1.26 PASSED    4.335  0.00
+WALL 26160 26160 120 120   2  16    11.24 PASSED    0.429  0.00
+CPU  26160 26160 120 120   2  16     1.23 PASSED    4.465  0.00
+WALL 26160 26160 120 120   2  16    10.90 PASSED    0.429  0.00
+CPU  26160 26160 120 120   2  16     1.20 PASSED    4.563  0.00
+WALL 26160 26160 120 120   2  16    11.65 PASSED    0.429  0.00
+CPU  26160 26160 120 120   2  16     1.21 PASSED    4.517  0.00
+WALL 26160 26160 120 120   2  16    24.41 PASSED    0.224  0.00
+CPU  26160 26160 120 120   2  16     1.50 PASSED    3.657  0.00
+WALL 26160 26160 120 120   4   8    10.22 PASSED    0.535  0.00
+CPU  26160 26160 120 120   4   8     1.37 PASSED    3.999  0.00
+WALL 26160 26160 120 120   4   8    12.17 PASSED    0.450  0.00
+CPU  26160 26160 120 120   4   8     1.63 PASSED    3.366  0.00
+WALL 26160 26160 120 120   4   8    12.10 PASSED    0.450  0.00
+CPU  26160 26160 120 120   4   8     1.52 PASSED    3.597  0.00
+WALL 26160 26160 120 120   4   8     9.78 PASSED    0.450  0.00
+CPU  26160 26160 120 120   4   8     1.49 PASSED    3.672  0.00
+WALL 26160 26160 120 120   4   8    11.21 PASSED    0.450  0.00
+CPU  26160 26160 120 120   4   8     1.41 PASSED    3.879  0.00
+
+Finished   15 tests, with the following results:
+   15 tests completed and passed residual checks.
+    0 tests completed and failed residual checks.
+    0 tests skipped because of illegal input values.
+
+END OF TESTS.
+Current time (1598620916) is Fri Aug 28 13:21:56 2020
+
+End of PTRANS section.
+Begin of StarDGEMM section.
+Scaled residual: 0.00930424
+Node(s) with error 0
+Minimum Gflop/s 3.193420
+Average Gflop/s 3.597432
+Maximum Gflop/s 3.849929
+Current time (1598621020) is Fri Aug 28 13:23:40 2020
+
+End of StarDGEMM section.
+Begin of SingleDGEMM section.
+Node(s) with error 0
+Node selected 16
+Single DGEMM Gflop/s 4.910863
+Current time (1598621091) is Fri Aug 28 13:24:51 2020
+
+End of SingleDGEMM section.
+Begin of StarSTREAM section.
+-------------------------------------------------------------
+This system uses 8 bytes per DOUBLE PRECISION word.
+-------------------------------------------------------------
+Array size = 28514400, Offset = 0
+Total memory required = 0.6373 GiB.
+Each test is run 10 times.
+ The *best* time for each kernel (excluding the first iteration)
+ will be used to compute the reported bandwidth.
+The SCALAR value used for this run is 0.420000
+-------------------------------------------------------------
+Your clock granularity/precision appears to be 1 microseconds.
+Each test below will take on the order of 591352 microseconds.
+   (= 591352 clock ticks)
+Increase the size of the arrays if this shows that
+you are not getting at least 20 clock ticks per test.
+-------------------------------------------------------------
+WARNING -- The above is only a rough guideline.
+For best results, please be sure you know the
+precision of your system timer.
+-------------------------------------------------------------
+VERBOSE: total setup time for rank 0 = 2.503744 seconds
+-------------------------------------------------------------
+Function      Rate (GB/s)   Avg time     Min time     Max time
+Copy:           0.9293       0.4979       0.4910       0.5372
+Scale:          0.9800       0.4677       0.4656       0.4721
+Add:            0.9023       0.7596       0.7584       0.7605
+Triad:          0.8996       0.7624       0.7607       0.7644
+-------------------------------------------------------------
+Solution Validates: avg error less than 1.000000e-13 on all three arrays
+-------------------------------------------------------------
+Node(s) with error 0
+Minimum Copy GB/s 0.929260
+Average Copy GB/s 0.929260
+Maximum Copy GB/s 0.929260
+Minimum Scale GB/s 0.979969
+Average Scale GB/s 0.979969
+Maximum Scale GB/s 0.979969
+Minimum Add GB/s 0.902324
+Average Add GB/s 0.902324
+Maximum Add GB/s 0.902324
+Minimum Triad GB/s 0.899619
+Average Triad GB/s 0.899619
+Maximum Triad GB/s 0.899619
+Current time (1598621120) is Fri Aug 28 13:25:20 2020
+
+End of StarSTREAM section.
+Begin of SingleSTREAM section.
+Node(s) with error 0
+Node selected 27
+Single STREAM Copy GB/s 5.368684
+Single STREAM Scale GB/s 5.416843
+Single STREAM Add GB/s 4.756377
+Single STREAM Triad GB/s 4.756922
+Current time (1598621126) is Fri Aug 28 13:25:26 2020
+
+End of SingleSTREAM section.
+Begin of MPIFFT section.
+Number of nodes: 32
+Vector size:            268435456
+Generation time:     0.784
+Tuning:     0.697
+Computing:    23.952
+Inverse FFT:    24.392
+max(|x-x0|): 2.230e-15
+Gflop/s:     1.569
+Current time (1598621178) is Fri Aug 28 13:26:18 2020
+
+End of MPIFFT section.
+Begin of StarFFT section.
+Vector size: 16777216
+Generation time:     1.574
+Tuning:     0.001
+Computing:     5.998
+Inverse FFT:     7.307
+max(|x-x0|): 1.910e-15
+Node(s) with error 0
+Minimum Gflop/s 0.251138
+Average Gflop/s 0.314311
+Maximum Gflop/s 0.335671
+Current time (1598621195) is Fri Aug 28 13:26:35 2020
+
+End of StarFFT section.
+Begin of SingleFFT section.
+Node(s) with error 0
+Node selected 7
+Single FFT Gflop/s 0.494388
+Current time (1598621206) is Fri Aug 28 13:26:46 2020
+
+End of SingleFFT section.
+Begin of LatencyBandwidth section.
+
+------------------------------------------------------------------
+Latency-Bandwidth-Benchmark R1.5.1 (c) HLRS, University of Stuttgart
+Written by Rolf Rabenseifner, Gerrit Schulz, and Michael Speck, Germany
+
+Details - level 2
+-----------------
+
+MPI_Wtime granularity.
+Max. MPI_Wtick is 0.000000 sec
+wtick is set to   0.000001 sec  
+
+Message Length: 8
+Latency   min / avg / max:   0.193647 /   0.193647 /   0.193647 msecs
+Bandwidth min / avg / max:      0.041 /      0.041 /      0.041 MByte/s
+
+MPI_Wtime granularity is ok.
+message size:                                  8
+max time :                             10.000000 secs
+latency for msg:                        0.193647 msecs
+estimation for ping pong:              17.428196 msecs
+max number of ping pong pairs       =        573
+max client pings = max server pongs =         23
+stride for latency                  =          3
+Message Length: 8
+Latency   min / avg / max:   0.064165 /   0.159317 /   0.189604 msecs
+Bandwidth min / avg / max:      0.042 /      0.055 /      0.125 MByte/s
+
+Message Length: 2000000
+Latency   min / avg / max:  18.071677 /  18.071677 /  18.071677 msecs
+Bandwidth min / avg / max:    110.670 /    110.670 /    110.670 MByte/s
+
+MPI_Wtime granularity is ok.
+message size:                            2000000
+max time :                             30.000000 secs
+latency for msg:                       18.071677 msecs
+estimation for ping pong:             144.573416 msecs
+max number of ping pong pairs       =        207
+max client pings = max server pongs =         14
+stride for latency                  =          3
+Message Length: 2000000
+Latency   min / avg / max:   1.444985 /  16.122543 /  18.638225 msecs
+Bandwidth min / avg / max:    107.306 /    241.087 /   1384.097 MByte/s
+
+Message Size:                           8 Byte
+Natural Order Latency:           0.133099 msec
+Natural Order Bandwidth:         0.060106 MB/s
+Avg Random Order Latency:        0.192830 msec
+Avg Random Order Bandwidth:      0.041487 MB/s
+
+Message Size:                     2000000 Byte
+Natural Order Latency:          32.580873 msec
+Natural Order Bandwidth:        61.385709 MB/s
+Avg Random Order Latency:      118.292413 msec
+Avg Random Order Bandwidth:     16.907255 MB/s
+
+Execution time (wall clock)      =    64.665 sec on 32 processes
+ - for cross ping_pong latency   =     1.778 sec
+ - for cross ping_pong bandwidth =    15.773 sec
+ - for ring latency              =     1.835 sec
+ - for ring bandwidth            =    45.279 sec
+
+------------------------------------------------------------------
+Latency-Bandwidth-Benchmark R1.5.1 (c) HLRS, University of Stuttgart
+Written by Rolf Rabenseifner, Gerrit Schulz, and Michael Speck, Germany
+
+Major Benchmark results:
+------------------------
+
+Max Ping Pong Latency:                 0.189604 msecs
+Randomly Ordered Ring Latency:         0.192830 msecs
+Min Ping Pong Bandwidth:             107.306358 MB/s
+Naturally Ordered Ring Bandwidth:     61.385709 MB/s
+Randomly  Ordered Ring Bandwidth:     16.907255 MB/s
+
+------------------------------------------------------------------
+
+Detailed benchmark results:
+Ping Pong:
+Latency   min / avg / max:   0.064165 /   0.159317 /   0.189604 msecs
+Bandwidth min / avg / max:    107.306 /    241.087 /   1384.097 MByte/s
+Ring:
+On naturally ordered ring: latency=      0.133099 msec, bandwidth=     61.385709 MB/s
+On randomly  ordered ring: latency=      0.192830 msec, bandwidth=     16.907255 MB/s
+
+------------------------------------------------------------------
+
+Benchmark conditions:
+ The latency   measurements were done with        8 bytes
+ The bandwidth measurements were done with  2000000 bytes
+ The ring communication was done in both directions on 32 processes
+ The Ping Pong measurements were done on 
+  -         121 pairs of processes for latency benchmarking, and 
+  -         121 pairs of processes for bandwidth benchmarking, 
+ out of 32*(32-1) =        992 possible combinations on 32 processes.
+ (1 MB/s = 10**6 byte/sec)
+
+------------------------------------------------------------------
+Current time (1598621271) is Fri Aug 28 13:27:51 2020
+
+End of LatencyBandwidth section.
+Begin of HPL section.
+================================================================================
+HPLinpack 2.0  --  High-Performance Linpack benchmark  --   September 10, 2008
+Written by A. Petitet and R. Clint Whaley,  Innovative Computing Laboratory, UTK
+Modified by Piotr Luszczek, Innovative Computing Laboratory, UTK
+Modified by Julien Langou, University of Colorado Denver
+================================================================================
+
+An explanation of the input/output parameters follows:
+T/V    : Wall time / encoded variant.
+N      : The order of the coefficient matrix A.
+NB     : The partitioning blocking factor.
+P      : The number of process rows.
+Q      : The number of process columns.
+Time   : Time in seconds to solve the linear system.
+Gflops : Rate of execution for solving the linear system.
+
+The following parameter values will be used:
+
+N      :   52320 
+NB     :     120 
+PMAP   : Row-major process mapping
+P      :       1        2        4 
+Q      :      32       16        8 
+PFACT  :   Crout 
+NBMIN  :       4        8 
+NDIV   :       2 
+RFACT  :   Right 
+BCAST  :  1ringM   2ringM 
+DEPTH  :       0        1 
+SWAP   : Mix (threshold = 120)
+L1     : transposed form
+U      : transposed form
+EQUIL  : yes
+ALIGN  : 8 double precision words
+
+--------------------------------------------------------------------------------
+
+- The matrix A is randomly generated for each test.
+- The following scaled residual check will be computed:
+      ||Ax-b||_oo / ( eps * ( || x ||_oo * || A ||_oo + || b ||_oo ) * N )
+- The relative machine precision (eps) is taken to be               1.110223e-16
+- Computational tests pass if scaled residuals are less than                16.0
+
+================================================================================
+T/V                N    NB     P     Q               Time                 Gflops
+--------------------------------------------------------------------------------
+WR01R2C4       52320   120     1    32            1179.63              8.094e+01
+--------------------------------------------------------------------------------
+||Ax-b||_oo/(eps*(||A||_oo*||x||_oo+||b||_oo)*N)=        0.0019194 ...... PASSED
+================================================================================
+T/V                N    NB     P     Q               Time                 Gflops
+--------------------------------------------------------------------------------
+WR01R2C8       52320   120     1    32            1166.03              8.189e+01
+--------------------------------------------------------------------------------
+||Ax-b||_oo/(eps*(||A||_oo*||x||_oo+||b||_oo)*N)=        0.0018325 ...... PASSED
+================================================================================
+T/V                N    NB     P     Q               Time                 Gflops
+--------------------------------------------------------------------------------
+WR03R2C4       52320   120     1    32            1194.42              7.994e+01
+--------------------------------------------------------------------------------
+||Ax-b||_oo/(eps*(||A||_oo*||x||_oo+||b||_oo)*N)=        0.0019194 ...... PASSED
+================================================================================
+T/V                N    NB     P     Q               Time                 Gflops
+--------------------------------------------------------------------------------
+WR03R2C8       52320   120     1    32            1225.56              7.791e+01
+--------------------------------------------------------------------------------
+||Ax-b||_oo/(eps*(||A||_oo*||x||_oo+||b||_oo)*N)=        0.0018325 ...... PASSED
+================================================================================
+T/V                N    NB     P     Q               Time                 Gflops
+--------------------------------------------------------------------------------
+WR11R2C4       52320   120     1    32            1227.40              7.779e+01
+--------------------------------------------------------------------------------
+||Ax-b||_oo/(eps*(||A||_oo*||x||_oo+||b||_oo)*N)=        0.0019194 ...... PASSED
+================================================================================
+T/V                N    NB     P     Q               Time                 Gflops
+--------------------------------------------------------------------------------
+WR11R2C8       52320   120     1    32            1233.26              7.742e+01
+--------------------------------------------------------------------------------
+||Ax-b||_oo/(eps*(||A||_oo*||x||_oo+||b||_oo)*N)=        0.0018325 ...... PASSED
+================================================================================
+T/V                N    NB     P     Q               Time                 Gflops
+--------------------------------------------------------------------------------
+WR13R2C4       52320   120     1    32            1212.13              7.877e+01
+--------------------------------------------------------------------------------
+||Ax-b||_oo/(eps*(||A||_oo*||x||_oo+||b||_oo)*N)=        0.0019194 ...... PASSED
+================================================================================
+T/V                N    NB     P     Q               Time                 Gflops
+--------------------------------------------------------------------------------
+WR13R2C8       52320   120     1    32            1221.32              7.818e+01
+--------------------------------------------------------------------------------
+||Ax-b||_oo/(eps*(||A||_oo*||x||_oo+||b||_oo)*N)=        0.0018325 ...... PASSED
+================================================================================
+T/V                N    NB     P     Q               Time                 Gflops
+--------------------------------------------------------------------------------
+WR01R2C4       52320   120     2    16            1090.80              8.754e+01
+--------------------------------------------------------------------------------
+||Ax-b||_oo/(eps*(||A||_oo*||x||_oo+||b||_oo)*N)=        0.0017408 ...... PASSED
+================================================================================
+T/V                N    NB     P     Q               Time                 Gflops
+--------------------------------------------------------------------------------
+WR01R2C8       52320   120     2    16            1084.87              8.801e+01
+--------------------------------------------------------------------------------
+||Ax-b||_oo/(eps*(||A||_oo*||x||_oo+||b||_oo)*N)=        0.0019749 ...... PASSED
+================================================================================
+T/V                N    NB     P     Q               Time                 Gflops
+--------------------------------------------------------------------------------
+WR03R2C4       52320   120     2    16            1113.54              8.575e+01
+--------------------------------------------------------------------------------
+||Ax-b||_oo/(eps*(||A||_oo*||x||_oo+||b||_oo)*N)=        0.0017408 ...... PASSED
+================================================================================
+T/V                N    NB     P     Q               Time                 Gflops
+--------------------------------------------------------------------------------
+WR03R2C8       52320   120     2    16            1088.01              8.776e+01
+--------------------------------------------------------------------------------
+||Ax-b||_oo/(eps*(||A||_oo*||x||_oo+||b||_oo)*N)=        0.0019749 ...... PASSED
+================================================================================
+T/V                N    NB     P     Q               Time                 Gflops
+--------------------------------------------------------------------------------
+WR11R2C4       52320   120     2    16            1114.54              8.567e+01
+--------------------------------------------------------------------------------
+||Ax-b||_oo/(eps*(||A||_oo*||x||_oo+||b||_oo)*N)=        0.0017408 ...... PASSED
+================================================================================
+T/V                N    NB     P     Q               Time                 Gflops
+--------------------------------------------------------------------------------
+WR11R2C8       52320   120     2    16            1117.96              8.541e+01
+--------------------------------------------------------------------------------
+||Ax-b||_oo/(eps*(||A||_oo*||x||_oo+||b||_oo)*N)=        0.0019749 ...... PASSED
+================================================================================
+T/V                N    NB     P     Q               Time                 Gflops
+--------------------------------------------------------------------------------
+WR13R2C4       52320   120     2    16            1121.01              8.518e+01
+--------------------------------------------------------------------------------
+||Ax-b||_oo/(eps*(||A||_oo*||x||_oo+||b||_oo)*N)=        0.0017408 ...... PASSED
+================================================================================
+T/V                N    NB     P     Q               Time                 Gflops
+--------------------------------------------------------------------------------
+WR13R2C8       52320   120     2    16            1110.12              8.601e+01
+--------------------------------------------------------------------------------
+||Ax-b||_oo/(eps*(||A||_oo*||x||_oo+||b||_oo)*N)=        0.0019749 ...... PASSED
+================================================================================
+T/V                N    NB     P     Q               Time                 Gflops
+--------------------------------------------------------------------------------
+WR01R2C4       52320   120     4     8            1095.96              8.712e+01
+--------------------------------------------------------------------------------
+||Ax-b||_oo/(eps*(||A||_oo*||x||_oo+||b||_oo)*N)=        0.0026470 ...... PASSED
+================================================================================
+T/V                N    NB     P     Q               Time                 Gflops
+--------------------------------------------------------------------------------
+WR01R2C8       52320   120     4     8            1092.54              8.740e+01
+--------------------------------------------------------------------------------
+||Ax-b||_oo/(eps*(||A||_oo*||x||_oo+||b||_oo)*N)=        0.0026392 ...... PASSED
+================================================================================
+T/V                N    NB     P     Q               Time                 Gflops
+--------------------------------------------------------------------------------
+WR03R2C4       52320   120     4     8            1088.56              8.772e+01
+--------------------------------------------------------------------------------
+||Ax-b||_oo/(eps*(||A||_oo*||x||_oo+||b||_oo)*N)=        0.0026470 ...... PASSED
+================================================================================
+T/V                N    NB     P     Q               Time                 Gflops
+--------------------------------------------------------------------------------
+WR03R2C8       52320   120     4     8            1089.71              8.762e+01
+--------------------------------------------------------------------------------
+||Ax-b||_oo/(eps*(||A||_oo*||x||_oo+||b||_oo)*N)=        0.0026392 ...... PASSED
+================================================================================
+T/V                N    NB     P     Q               Time                 Gflops
+--------------------------------------------------------------------------------
+WR11R2C4       52320   120     4     8            1113.42              8.576e+01
+--------------------------------------------------------------------------------
+||Ax-b||_oo/(eps*(||A||_oo*||x||_oo+||b||_oo)*N)=        0.0026470 ...... PASSED
+================================================================================
+T/V                N    NB     P     Q               Time                 Gflops
+--------------------------------------------------------------------------------
+WR11R2C8       52320   120     4     8            1105.95              8.634e+01
+--------------------------------------------------------------------------------
+||Ax-b||_oo/(eps*(||A||_oo*||x||_oo+||b||_oo)*N)=        0.0026392 ...... PASSED
+================================================================================
+T/V                N    NB     P     Q               Time                 Gflops
+--------------------------------------------------------------------------------
+WR13R2C4       52320   120     4     8            1091.56              8.747e+01
+--------------------------------------------------------------------------------
+||Ax-b||_oo/(eps*(||A||_oo*||x||_oo+||b||_oo)*N)=        0.0026470 ...... PASSED
+================================================================================
+T/V                N    NB     P     Q               Time                 Gflops
+--------------------------------------------------------------------------------
+WR13R2C8       52320   120     4     8            1080.18              8.840e+01
+--------------------------------------------------------------------------------
+||Ax-b||_oo/(eps*(||A||_oo*||x||_oo+||b||_oo)*N)=        0.0026392 ...... PASSED
+================================================================================
+
+Finished     24 tests with the following results:
+             24 tests completed and passed residual checks,
+              0 tests completed and failed residual checks,
+              0 tests skipped because of illegal input values.
+--------------------------------------------------------------------------------
+
+End of Tests.
+================================================================================
+Current time (1598648920) is Fri Aug 28 21:08:40 2020
+
+End of HPL section.
+Begin of Summary section.
+VersionMajor=1
+VersionMinor=5
+VersionMicro=0
+VersionRelease=f
+LANG=C
+Success=1
+sizeof_char=1
+sizeof_short=2
+sizeof_int=4
+sizeof_long=8
+sizeof_void_ptr=8
+sizeof_size_t=8
+sizeof_float=4
+sizeof_double=8
+sizeof_s64Int=8
+sizeof_u64Int=8
+sizeof_struct_double_double=16
+CommWorldProcs=32
+MPI_Wtick=1.000000e-09
+HPL_Tflops=0.0883963
+HPL_time=1080.18
+HPL_eps=1.11022e-16
+HPL_RnormI=2.98065e-09
+HPL_Anorm1=13217
+HPL_AnormI=13206.2
+HPL_Xnorm1=135540
+HPL_XnormI=14.7225
+HPL_BnormI=0.499992
+HPL_N=52320
+HPL_NB=120
+HPL_nprow=4
+HPL_npcol=8
+HPL_depth=1
+HPL_nbdiv=2
+HPL_nbmin=8
+HPL_cpfact=C
+HPL_crfact=R
+HPL_ctop=3
+HPL_order=R
+HPL_dMACH_EPS=1.110223e-16
+HPL_dMACH_SFMIN=2.225074e-308
+HPL_dMACH_BASE=2.000000e+00
+HPL_dMACH_PREC=2.220446e-16
+HPL_dMACH_MLEN=5.300000e+01
+HPL_dMACH_RND=1.000000e+00
+HPL_dMACH_EMIN=-1.021000e+03
+HPL_dMACH_RMIN=2.225074e-308
+HPL_dMACH_EMAX=1.024000e+03
+HPL_dMACH_RMAX=1.797693e+308
+HPL_sMACH_EPS=5.960464e-08
+HPL_sMACH_SFMIN=1.175494e-38
+HPL_sMACH_BASE=2.000000e+00
+HPL_sMACH_PREC=1.192093e-07
+HPL_sMACH_MLEN=2.400000e+01
+HPL_sMACH_RND=1.000000e+00
+HPL_sMACH_EMIN=-1.250000e+02
+HPL_sMACH_RMIN=1.175494e-38
+HPL_sMACH_EMAX=1.280000e+02
+HPL_sMACH_RMAX=3.402823e+38
+dweps=1.110223e-16
+sweps=5.960464e-08
+HPLMaxProcs=32
+HPLMinProcs=32
+DGEMM_N=5339
+StarDGEMM_Gflops=3.59743
+SingleDGEMM_Gflops=4.91086
+PTRANS_GBs=0.465891
+PTRANS_time=11.0266
+PTRANS_residual=0
+PTRANS_n=26160
+PTRANS_nb=120
+PTRANS_nprow=1
+PTRANS_npcol=32
+MPIRandomAccess_LCG_N=2147483648
+MPIRandomAccess_LCG_time=60.0988
+MPIRandomAccess_LCG_CheckTime=1.81496
+MPIRandomAccess_LCG_Errors=0
+MPIRandomAccess_LCG_ErrorsFraction=0
+MPIRandomAccess_LCG_ExeUpdates=38605312
+MPIRandomAccess_LCG_GUPs=0.000642364
+MPIRandomAccess_LCG_TimeBound=60
+MPIRandomAccess_LCG_Algorithm=0
+MPIRandomAccess_N=2147483648
+MPIRandomAccess_time=59.9633
+MPIRandomAccess_CheckTime=2.55634
+MPIRandomAccess_Errors=0
+MPIRandomAccess_ErrorsFraction=0
+MPIRandomAccess_ExeUpdates=38696576
+MPIRandomAccess_GUPs=0.000645338
+MPIRandomAccess_TimeBound=60
+MPIRandomAccess_Algorithm=0
+RandomAccess_LCG_N=67108864
+StarRandomAccess_LCG_GUPs=0.00373175
+SingleRandomAccess_LCG_GUPs=0.00815537
+RandomAccess_N=67108864
+StarRandomAccess_GUPs=0.00373372
+SingleRandomAccess_GUPs=0.00837312
+STREAM_VectorSize=28514400
+STREAM_Threads=1
+StarSTREAM_Copy=0.92926
+StarSTREAM_Scale=0.979969
+StarSTREAM_Add=0.902324
+StarSTREAM_Triad=0.899619
+SingleSTREAM_Copy=5.36868
+SingleSTREAM_Scale=5.41684
+SingleSTREAM_Add=4.75638
+SingleSTREAM_Triad=4.75692
+FFT_N=16777216
+StarFFT_Gflops=0.314311
+SingleFFT_Gflops=0.494388
+MPIFFT_N=268435456
+MPIFFT_Gflops=1.56901
+MPIFFT_maxErr=2.22953e-15
+MPIFFT_Procs=32
+MaxPingPongLatency_usec=189.604
+RandomlyOrderedRingLatency_usec=192.83
+MinPingPongBandwidth_GBytes=0.107306
+NaturallyOrderedRingBandwidth_GBytes=0.0613857
+RandomlyOrderedRingBandwidth_GBytes=0.0169073
+MinPingPongLatency_usec=64.1646
+AvgPingPongLatency_usec=159.317
+MaxPingPongBandwidth_GBytes=1.3841
+AvgPingPongBandwidth_GBytes=0.241087
+NaturallyOrderedRingLatency_usec=133.099
+FFTEnblk=16
+FFTEnp=8
+FFTEl2size=1048576
+M_OPENMP=-1
+omp_get_num_threads=0
+omp_get_max_threads=0
+omp_get_num_procs=0
+MemProc=-1
+MemSpec=-1
+MemVal=-1
+MPIFFT_time0=3.666e-06
+MPIFFT_time1=6.70692
+MPIFFT_time2=0.779216
+MPIFFT_time3=6.30354
+MPIFFT_time4=3.53086
+MPIFFT_time5=6.39704
+MPIFFT_time6=1.981e-06
+CPS_HPCC_FFT_235=0
+CPS_HPCC_FFTW_ESTIMATE=0
+CPS_HPCC_MEMALLCTR=0
+CPS_HPL_USE_GETPROCESSTIMES=0
+CPS_RA_SANDIA_NOPT=0
+CPS_RA_SANDIA_OPT2=0
+CPS_USING_FFTW=0
+End of Summary section.
+########################################################################
+End of HPC Challenge tests.
+Current time (1598648920) is Fri Aug 28 21:08:40 2020
+
+########################################################################
