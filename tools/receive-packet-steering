@@ -1,0 +1,29 @@
+#!/usr/bin/bash
+
+NODES=8
+
+if [ -z $1 ] || ([ $1 != "show" ] && [ $1 != "on" ] && [ $1 != "off" ])
+then
+	echo "Usage: receive-packet-steering {show|on|off}"
+	exit
+fi
+
+
+for (( i=$NODES; i>0; i-- ))
+do
+	case $1 in 
+		"show")
+			printf "node$i... "
+			ssh node$i cat /sys/class/net/eth0/queues/rx-0/rps_cpus
+			;;
+		"on")
+			printf "node$i... "
+			ssh node$i 'echo f | sudo tee /sys/class/net/eth0/queues/rx-0/rps_cpus'
+			;;
+		"off")
+			printf "node$i... "
+			ssh node$i 'echo 0 | sudo tee /sys/class/net/eth0/queues/rx-0/rps_cpus'
+			;;	       
+	esac
+done
+

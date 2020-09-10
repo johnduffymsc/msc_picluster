@@ -1,0 +1,37 @@
+#!/usr/bin/bash
+
+NODES=8
+
+if [ -z $1 ] || ([ $1 != "show" ] && [ $1 != "on" ] && [ $1 != "off" ])
+then
+	echo "Usage: receive-flow-steering {show|on|off}"
+	exit
+fi
+
+
+ENTRIES=32768
+
+for (( i=$NODES; i>0; i-- ))
+do
+	case $1 in 
+		"show")
+			printf "node$i... "
+			ssh node$i cat /proc/sys/net/core/rps_sock_flow_entries | tr -d '\n'
+			printf " "
+			ssh node$i cat /sys/class/net/eth0/queues/rx-0/rps_flow_cnt
+			;;
+		"on")
+			printf "node$i... "
+			ssh node$i "echo $ENTRIES | sudo tee /proc/sys/net/core/rps_sock_flow_entries" | tr -d '\n'
+			printf " "
+			ssh node$i "echo $ENTRIES | sudo tee /sys/class/net/eth0/queues/rx-0/rps_flow_cnt"
+			;;
+		"off")
+			printf "node$i... "
+			ssh node$i "echo 0 | sudo tee /proc/sys/net/core/rps_sock_flow_entries" | tr -d '\n'
+			printf " "
+			ssh node$i "echo 0 | sudo tee /sys/class/net/eth0/queues/rx-0/rps_flow_cnt"
+			;;	       
+	esac
+done
+
