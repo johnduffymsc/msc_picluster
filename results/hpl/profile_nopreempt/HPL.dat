@@ -1,18 +1,15 @@
-#!/usr/bin/bash
-
-HPL_DAT=$(cat <<'END'
 HPLinpack benchmark input file
 Innovative Computing Laboratory, University of Tennessee
 HPL.out      output file name (if any)
 0            device out (6=stdout,7=stderr,file)
 1            # of problems sizes (N)
-%d           Ns
+13056           Ns
 1            # of NBs
-%d           NBs
+256           NBs
 0            PMAP process mapping (0=Row-,1=Column-major)
 1            # of process grids (P x Q)
-%d           Ps
-%d           Qs
+2           Ps
+4           Qs
 16.0         threshold
 1            # of panel fact
 1            PFACTs (0=left, 1=Crout, 2=Right)
@@ -27,29 +24,8 @@ HPL.out      output file name (if any)
 2            # of lookahead depth
 0 1          DEPTHs (>=0)
 2            SWAP (0=bin-exch,1=long,2=mix)
-%d           swapping threshold
+256           swapping threshold
 0            L1 in (0=transposed,1=no-transposed) form
 0            U  in (0=transposed,1=no-transposed) form
 1            Equilibration (0=no,1=yes)
 8            memory alignment in double (> 0)
-END
-)
-
-MEMORY_PERCENT=0.2
-
-for NB in `seq 32 8 256`
-do
-	N=$(echo "(($MEMORY_PERCENT*sqrt(8*4*1024^3/8))/$NB)*$NB" | bc)
-
-	for P in 1 2 4 
-	do
-		Q=$(echo "32/$P" | bc)
-
-		printf "$HPL_DAT" $N $NB $P $Q $NB > HPL.dat
-
-		mpirun --bind-to core -host node1:4,node2:4,node3:4,node4:4,node5:4,node6:4,node7:4,node8:4 -np 32 xhpl
-
-		mv HPL.out "HPL.out.8_node_$N_$NB_$P_$Q.blis-serial"
-	done
-done
-

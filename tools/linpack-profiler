@@ -1,0 +1,76 @@
+#!/usr/bin/bash
+
+if [ -z $1 ] || ([ $1 != "openblas-serial" ] && [ $1 != "blis-serial" ] && [ $1 != "openblas-openmp" ] && [ $1 != "blis-openmp" ])
+then
+	echo "Usage: linpack-profiler {openblas-serial|blis-serial|openblas-openmp|blis-openmp}"
+	exit
+fi
+
+HPL_DAT=$(cat <<'END'
+HPLinpack benchmark input file
+Innovative Computing Laboratory, University of Tennessee
+HPL.out      output file name (if any)
+0            device out (6=stdout,7=stderr,file)
+1            # of problems sizes (N)
+%d           Ns
+1            # of NBs
+%d           NBs
+0            PMAP process mapping (0=Row-,1=Column-major)
+1            # of process grids (P x Q)
+%d           Ps
+%d           Qs
+16.0         threshold
+1            # of panel fact
+1            PFACTs (0=left, 1=Crout, 2=Right)
+2            # of recursive stopping criterium
+4 8          NBMINs (>= 1)
+1            # of panels in recursion
+2            NDIVs
+1            # of recursive panel fact.
+2            RFACTs (0=left, 1=Crout, 2=Right)
+2            # of broadcast
+1 3          BCASTs (0=1rg,1=1rM,2=2rg,3=2rM,4=Lng,5=LnM)
+2            # of lookahead depth
+0 1          DEPTHs (>=0)
+2            SWAP (0=bin-exch,1=long,2=mix)
+%d           swapping threshold
+0            L1 in (0=transposed,1=no-transposed) form
+0            U  in (0=transposed,1=no-transposed) form
+1            Equilibration (0=no,1=yes)
+8            memory alignment in double (> 0)
+END
+)
+
+~/picluster/tools/libblas-set $1
+
+MEMORY_PERCENT=0.20
+
+for NB in `seq 32 8 256`
+do
+	N=$(echo "(($MEMORY_PERCENT*sqrt(8*4*1024^3/8))/$NB)*$NB" | bc)
+
+	if [ $1 == "openblas-serial" ] || [ $1 == "blis-serial" ]
+	then
+		for P in 1 2 4 
+		do
+			Q=$(echo "32/$P" | bc)
+			printf "$HPL_DAT" $N $NB $P $Q $NB > HPL.dat
+			mpirun --bind-to core -host node1:4,node2:4,node3:4,node4:4,node5:4,node6:4,node7:4,node8:4 -np 32 ~/picluster/hpl/hpl-2.3/bin/picluster/xhpl
+			mv HPL.out HPL.out.8_node\_$N\_$NB\_$P\_$Q.$1
+		done
+	fi
+
+	if [ $1 == "openblas-openmp" ] || [ $1 == "blis-openmp" ]
+	then
+		for P in 1 2 
+		do
+			Q=$(echo "8/$P" | bc)
+			printf "$HPL_DAT" $N $NB $P $Q $NB > HPL.dat
+			mpirun --bind-to socket -host node1:1,node2:1,node3:1,node4:1,node5:1,node6:1,node7:1,node8:1 -np 8 -x OMP_NUM_THREADS=4 ~/picluster/hpl/hpl-2.3/bin/picluster/xhpl
+			mv HPL.out HPL.out.8_node\_$N\_$NB\_$P\_$Q.$1
+		done
+	fi
+
+	chmod 444 HPL.out.*
+done
+
