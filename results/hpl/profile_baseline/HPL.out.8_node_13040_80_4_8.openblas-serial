@@ -1,0 +1,133 @@
+================================================================================
+HPLinpack 2.3  --  High-Performance Linpack benchmark  --   December 2, 2018
+Written by A. Petitet and R. Clint Whaley,  Innovative Computing Laboratory, UTK
+Modified by Piotr Luszczek, Innovative Computing Laboratory, UTK
+Modified by Julien Langou, University of Colorado Denver
+================================================================================
+
+An explanation of the input/output parameters follows:
+T/V    : Wall time / encoded variant.
+N      : The order of the coefficient matrix A.
+NB     : The partitioning blocking factor.
+P      : The number of process rows.
+Q      : The number of process columns.
+Time   : Time in seconds to solve the linear system.
+Gflops : Rate of execution for solving the linear system.
+
+The following parameter values will be used:
+
+N      :   13040 
+NB     :      80 
+PMAP   : Row-major process mapping
+P      :       4 
+Q      :       8 
+PFACT  :   Crout 
+NBMIN  :       4        8 
+NDIV   :       2 
+RFACT  :   Right 
+BCAST  :  1ringM   2ringM 
+DEPTH  :       0        1 
+SWAP   : Mix (threshold = 80)
+L1     : transposed form
+U      : transposed form
+EQUIL  : yes
+ALIGN  : 8 double precision words
+
+--------------------------------------------------------------------------------
+
+- The matrix A is randomly generated for each test.
+- The following scaled residual check will be computed:
+      ||Ax-b||_oo / ( eps * ( || x ||_oo * || A ||_oo + || b ||_oo ) * N )
+- The relative machine precision (eps) is taken to be               1.110223e-16
+- Computational tests pass if scaled residuals are less than                16.0
+
+================================================================================
+T/V                N    NB     P     Q               Time                 Gflops
+--------------------------------------------------------------------------------
+WR01R2C4       13040    80     4     8              30.53             4.8426e+01
+HPL_pdgesv() start time Tue Sep 15 23:17:21 2020
+
+HPL_pdgesv() end time   Tue Sep 15 23:17:51 2020
+
+--------------------------------------------------------------------------------
+||Ax-b||_oo/(eps*(||A||_oo*||x||_oo+||b||_oo)*N)=   3.26486241e-03 ...... PASSED
+================================================================================
+T/V                N    NB     P     Q               Time                 Gflops
+--------------------------------------------------------------------------------
+WR01R2C8       13040    80     4     8              30.53             4.8423e+01
+HPL_pdgesv() start time Tue Sep 15 23:17:52 2020
+
+HPL_pdgesv() end time   Tue Sep 15 23:18:23 2020
+
+--------------------------------------------------------------------------------
+||Ax-b||_oo/(eps*(||A||_oo*||x||_oo+||b||_oo)*N)=   2.77517825e-03 ...... PASSED
+================================================================================
+T/V                N    NB     P     Q               Time                 Gflops
+--------------------------------------------------------------------------------
+WR03R2C4       13040    80     4     8              30.82             4.7972e+01
+HPL_pdgesv() start time Tue Sep 15 23:18:24 2020
+
+HPL_pdgesv() end time   Tue Sep 15 23:18:55 2020
+
+--------------------------------------------------------------------------------
+||Ax-b||_oo/(eps*(||A||_oo*||x||_oo+||b||_oo)*N)=   3.26486241e-03 ...... PASSED
+================================================================================
+T/V                N    NB     P     Q               Time                 Gflops
+--------------------------------------------------------------------------------
+WR03R2C8       13040    80     4     8              30.85             4.7922e+01
+HPL_pdgesv() start time Tue Sep 15 23:18:55 2020
+
+HPL_pdgesv() end time   Tue Sep 15 23:19:26 2020
+
+--------------------------------------------------------------------------------
+||Ax-b||_oo/(eps*(||A||_oo*||x||_oo+||b||_oo)*N)=   2.77517825e-03 ...... PASSED
+================================================================================
+T/V                N    NB     P     Q               Time                 Gflops
+--------------------------------------------------------------------------------
+WR11R2C4       13040    80     4     8              28.56             5.1766e+01
+HPL_pdgesv() start time Tue Sep 15 23:19:27 2020
+
+HPL_pdgesv() end time   Tue Sep 15 23:19:56 2020
+
+--------------------------------------------------------------------------------
+||Ax-b||_oo/(eps*(||A||_oo*||x||_oo+||b||_oo)*N)=   3.26486241e-03 ...... PASSED
+================================================================================
+T/V                N    NB     P     Q               Time                 Gflops
+--------------------------------------------------------------------------------
+WR11R2C8       13040    80     4     8              28.48             5.1908e+01
+HPL_pdgesv() start time Tue Sep 15 23:19:57 2020
+
+HPL_pdgesv() end time   Tue Sep 15 23:20:25 2020
+
+--------------------------------------------------------------------------------
+||Ax-b||_oo/(eps*(||A||_oo*||x||_oo+||b||_oo)*N)=   2.77517825e-03 ...... PASSED
+================================================================================
+T/V                N    NB     P     Q               Time                 Gflops
+--------------------------------------------------------------------------------
+WR13R2C4       13040    80     4     8              29.40             5.0291e+01
+HPL_pdgesv() start time Tue Sep 15 23:20:26 2020
+
+HPL_pdgesv() end time   Tue Sep 15 23:20:55 2020
+
+--------------------------------------------------------------------------------
+||Ax-b||_oo/(eps*(||A||_oo*||x||_oo+||b||_oo)*N)=   3.26486241e-03 ...... PASSED
+================================================================================
+T/V                N    NB     P     Q               Time                 Gflops
+--------------------------------------------------------------------------------
+WR13R2C8       13040    80     4     8              29.32             5.0432e+01
+HPL_pdgesv() start time Tue Sep 15 23:20:56 2020
+
+HPL_pdgesv() end time   Tue Sep 15 23:21:26 2020
+
+--------------------------------------------------------------------------------
+||Ax-b||_oo/(eps*(||A||_oo*||x||_oo+||b||_oo)*N)=   2.77517825e-03 ...... PASSED
+================================================================================
+
+Finished      8 tests with the following results:
+              8 tests completed and passed residual checks,
+              0 tests completed and failed residual checks,
+              0 tests skipped because of illegal input values.
+--------------------------------------------------------------------------------
+
+End of Tests.
+================================================================================

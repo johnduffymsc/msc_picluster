@@ -43,7 +43,7 @@ END
 
 ~/picluster/tools/libblas-set $1
 
-MEMORY_PERCENT=0.20
+MEMORY_PERCENT=0.2
 
 for NB in `seq 32 8 256`
 do
