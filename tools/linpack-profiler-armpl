@@ -1,8 +1,8 @@
 #!/usr/bin/bash
 
-if [ -z $1 ] || ([ $1 != "openblas-serial" ] && [ $1 != "blis-serial" ] && [ $1 != "openblas-openmp" ] && [ $1 != "blis-openmp" ])
+if [ -z $1 ] || ([ $1 != "armpl-serial" ] && [ $1 != "armpl-openmp" ])
 then
-	echo "Usage: linpack-profiler {openblas-serial|blis-serial|openblas-openmp|blis-openmp}"
+	echo "Usage: linpack-profiler-armpl {armpl-serial|armpl-openmp}"
 	exit
 fi
 
@@ -41,7 +41,6 @@ HPL.out      output file name (if any)
 END
 )
 
-~/picluster/tools/libblas-set $1
 
 MEMORY_PERCENT=0.2
 
@@ -49,24 +48,24 @@ for NB in `seq 32 8 256`
 do
 	N=$(echo "(($MEMORY_PERCENT*sqrt(8*4*1024^3/8))/$NB)*$NB" | bc)
 
-	if [ $1 == "openblas-serial" ] || [ $1 == "blis-serial" ]
+	if [ $1 == "armpl-serial" ]
 	then
 		for P in 1 2 4
 		do
 			Q=$(echo "32/$P" | bc)
 			printf "$HPL_DAT" $N $NB $P $Q $NB > HPL.dat
-			mpirun --bind-to core -host node1:4,node2:4,node3:4,node4:4,node5:4,node6:4,node7:4,node8:4 -np 32 ~/picluster/hpl/hpl-2.3/bin/picluster/xhpl
+			mpirun --bind-to core -host node1:4,node2:4,node3:4,node4:4,node5:4,node6:4,node7:4,node8:4 -np 32 -x LD_LIBRARY_PATH=/opt/arm/armpl_20.3_gcc-9.3/lib ~/picluster/hpl/hpl-2.3/bin/armpl-serial/xhpl
 			mv HPL.out HPL.out.8_node\_$N\_$NB\_$P\_$Q.$1
 		done
 	fi
 
-	if [ $1 == "openblas-openmp" ] || [ $1 == "blis-openmp" ]
+	if [ $1 == "armpl-openmp" ]
 	then
 		for P in 1 2
 		do
 			Q=$(echo "8/$P" | bc)
 			printf "$HPL_DAT" $N $NB $P $Q $NB > HPL.dat
-			mpirun --bind-to socket -host node1:1,node2:1,node3:1,node4:1,node5:1,node6:1,node7:1,node8:1 -np 8 -x OMP_NUM_THREADS=4 ~/picluster/hpl/hpl-2.3/bin/picluster/xhpl
+			mpirun --bind-to socket -host node1:1,node2:1,node3:1,node4:1,node5:1,node6:1,node7:1,node8:1 -np 8 -x OMP_NUM_THREADS=4 -x LD_LIBRARY_PATH=/opt/arm/armpl_20.3_gcc-9.3/lib ~/picluster/hpl/hpl-2.3/bin/armpl-openmp/xhpl
 			mv HPL.out HPL.out.8_node\_$N\_$NB\_$P\_$Q.$1
 		done
 	fi

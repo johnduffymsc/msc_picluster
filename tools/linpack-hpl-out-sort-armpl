@@ -1,0 +1,13 @@
+#!/usr/bin/bash
+
+if [ -z $1 ] || ([ $1 != "armpl-serial" ] && [ $1 != "armpl-openmp" ])
+then
+	echo "Usage: linpack-hpl-out-sort-armpl {armpl-serial|armpl-openmp}"
+	exit
+fi
+
+for nb in `seq 32 8 256`
+do
+	grep WR HPL.out.*\_$nb\_*.$1 | sort -g -k 7 | tail -n 1 | gawk '{ printf "%f,\n", $7 }'
+done
+
